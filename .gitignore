@@ -79,7 +79,7 @@ celerybeat-schedule
 # dotenv
 .env
 
-# Jupyter 
+# Jupyter
 *.DS_Store
 
 # virtualenv
@@ -110,3 +110,5 @@ ENV/
 # data
 data/faces/
 data/news_data/
+
+infraQuarter/
