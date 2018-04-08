@@ -10,7 +10,13 @@ RUN pip3 install --upgrade numpy scipy matplotlib scikit-learn pandas seaborn pl
 RUN pip3 install --upgrade nose tqdm pydot pydotplus watermark geopy joblib pillow
 
 # Graphviz, visualizing trees
-RUN apt-get -y install graphviz 
+RUN apt-get update && apt-get -y install graphviz
+
+# Node
+RUN apt-get install -y nodejs-legacy npm
+RUN npm install -g ijavascript itypescript
+RUN ijsinstall --install=global
+RUN its --ts-install=global
 
 # Jupyter configs
 RUN jupyter notebook --allow-root --generate-config -y
@@ -35,19 +41,19 @@ RUN pip3 install --upgrade vowpalwabbit
 # XGBoost
 RUN git clone --recursive https://github.com/dmlc/xgboost && \
     cd xgboost && \
-    make -j4 
+    make -j4
 
 # xgboost python wrapper
 RUN cd xgboost/python-package; python3 setup.py install && cd ../..
 
-RUN apt-get -y install cmake 
+RUN apt-get -y install cmake
 
 # LightGBM
 RUN cd /usr/local/src && git clone --recursive --depth 1 https://github.com/Microsoft/LightGBM && \
-    cd LightGBM && mkdir build && cd build && cmake .. && make -j $(nproc) 
+    cd LightGBM && mkdir build && cd build && cmake .. && make -j $(nproc)
 
 # LightGBM python wrapper
-RUN cd /usr/local/src/LightGBM/python-package && python3 setup.py install 
+RUN cd /usr/local/src/LightGBM/python-package && python3 setup.py install
 
 # CatBoost
 RUN pip3 install --upgrade catboost
@@ -56,8 +62,8 @@ RUN pip3 install --upgrade catboost
 RUN pip3 install http://download.pytorch.org/whl/cpu/torch-0.3.1-cp35-cp35m-linux_x86_64.whl
 RUN pip3 install torchvision
 
-# TensorFlow 
-RUN pip3 install --upgrade tensorflow  
+# TensorFlow
+RUN pip3 install --upgrade tensorflow
 
 # Keras with TensorFlow backend
 RUN pip3 install --upgrade keras
@@ -106,7 +112,7 @@ RUN mkdir -p /home/user && \
     echo 'root:12345' | chpasswd && \
     sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config && \
     sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd && \
-  #  chmod a+x /usr/local/bin/h2o && \
+    #  chmod a+x /usr/local/bin/h2o && \
     chmod a+x /entry-point.sh
 
 WORKDIR /home/user
